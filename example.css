@@ -75,3 +75,24 @@ main>section>h2>select
 {
 	float: right;
 }
+#github
+{
+	color: #555;
+    font-weight: normal;
+    font-size: 50%;
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    z-index: 100;
+}
+#github svg
+{
+    fill: #555;
+	display: inline;
+    width: 16px;
+    vertical-align: middle;
+    margin-top: -3px;
+}
