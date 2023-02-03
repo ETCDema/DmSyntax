@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<link href="src/dm.syntax@1.css" rel="stylesheet">
+		<link href="example.css" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Syntax highligh example</h1>
+		<main>
+			<section>
+				<h2><select id="srcType">
+					<option value="HTML" selected>HTML Source</option>
+					<option value="JS">JS Source</option>
+					<option value="JSON">JSON Source</option>
+					<option value="CSS">CSS Source</option>
+					<option value="XML">XML Source</option>
+					<option value="CS">CS Source</option>
+				</select></h2>
+				<textarea id="src">
+&lt;html>
+	&lt;head>
+		&lt;style>
+			BODY
+			{
+				background-color: white;
+				color: black;
+			}
+		&lt;/style>
+	&lt;/head>
+	&lt;xml>
+		&lt;root>
+			&lt;tag1 param1="value1"/>
+			&lt;tag2 param2="value2">
+				Text1
+				&lt;![CDATA[CDATA text]]>
+				Text2
+			&lt;/tag2>
+		&lt;/root>
+	&lt;/xml>
+	&lt;body>
+		&lt;script type="text/javascript">
+			&lt;!--
+			const s				= 'Hello!';		// Выводим
+			alert(s);
+			const string2		= 'Hello 2!';	// Не выводим
+			const arr			= [ 1, null, '2' ];
+			
+			// Тестирование табуляции
+			const t1				= 4;
+			const t11				= 4;
+			const t111				= 4;
+			const t1111				= 4;
+			const t11111			= 3;
+			const t111111			= 3;
+			const t1111111			= 3;
+			const t11111111			= 3;
+			const t111111111		= 2;
+			const t1111111111		= 2;
+			const t11111111111		= 2;
+			const t111111111111		= 2;
+			const t1111111111111	= 1;
+			const t11111111111111	= 1;
+
+			function f1(p1)
+			{
+				// TODO!
+			}
+
+			f1((p2) => 'Arrow Fx');
+
+			//-->
+		&lt;/script>
+	&lt;/body>
+&lt;/html></textarea>
+			</section>
+			<section>
+				<h2><select id="resultType">
+					<option value="HTML">HTML Result</option>
+					<option value="SVG" selected>SVG Result</option>
+				</select><button id="copyResult">Копировать</button></h2>
+				<div id="result"></div>
+			</section>
+		</main>
+		<!-- <script src="dist/dm.syntax@1.min.js"></script> -->
+		<script src="src/dm.syntax@1.js"></script>
+		<script>
+			(function()
+			{
+				const _src				= document.getElementById('src');
+				const _srcType			= document.getElementById('srcType');
+				const _result			= document.getElementById('result');
+				const _resultType		= document.getElementById('resultType');
+				const _copyResult		= document.getElementById('copyResult');
+				const _contentTypes		= { HTML: 'text/html', SVG: 'image/svg' };
+				let _resultContent		= '';
+
+				function _getVal(el)
+				{
+					return el.options[el.selectedIndex].value;
+				}
+
+				function _update()
+				{
+					const srcType		= _getVal(_srcType);
+					const resultType	= _getVal(_resultType);
+					_result.innerHTML	= _resultContent = dmSyntax[srcType](_src.value, dmSyntax.renders[resultType]);
+				}
+
+				function _copy()
+				{
+					if (!_resultContent) return;
+					navigator.clipboard.writeText(_resultContent);
+					// const resultType	= _getVal(_resultType);
+					// const blob			= new Blob([ '\ufeff', _resultContent ], { type: _contentTypes[resultType] });
+					// const url			= URL.createObjectURL(blob);
+					// const link			= document.createElement("a");
+					// link.href			= url;
+					// link.click();
+					// URL.revokeObjectURL(url);
+				}
+
+				_src.addEventListener('input', _update);
+				_srcType.addEventListener('change', _update);
+				_resultType.addEventListener('change', _update);
+				_copyResult.addEventListener('click', _copy);
+
+				_update();
+			})();
+		</script>
+	</body>
+</html>

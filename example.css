@@ -1,0 +1,77 @@
+﻿body
+{
+	display: flex;
+	flex-direction: column;
+	font-family: system-ui, Verdana;
+	padding: 0;
+	margin: 0;
+}
+h1
+{
+	box-shadow: #00000080 0 8px 8px -8px;
+	margin: 0;
+	padding: 0.5em 0.2em;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	backdrop-filter: blur(2px);
+	background-color: #ffffffad;
+}
+main
+{
+	display: flex;
+	align-items: stretch;
+	gap: 8px;
+	flex-wrap: wrap;
+	padding: 0 0.4em;
+	margin-bottom: 8px;
+}
+main>section
+{
+	flex: 1 1 512px;
+	width: 50%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+main>section>h2>select
+{
+	font-size: 1.5rem;
+	font-family: system-ui, Verdana;
+	border: none;
+	cursor: pointer;
+}
+#src
+{
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	tab-size : 4;
+	white-space: nowrap;
+	resize: none;
+	flex: auto;
+	min-height: 40vh;
+	font-family: "Courier New", monospace; 
+	font-size: 10pt;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	padding: 4px;
+}
+#result
+{
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	overflow: auto;
+	white-space: nowrap;
+	padding: 4px;
+	width: auto;
+}
+#result>div
+{
+	width: max-content;
+	position: relative;
+}
+#copyResult
+{
+	float: right;
+}
