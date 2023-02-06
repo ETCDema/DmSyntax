@@ -1,6 +1,6 @@
 ﻿# Syntax highlight example
 
-Syntax highlighting with html or svg generation.
+Syntax highlighting with html or svg generation. Try it at https://etcdema.github.io/DmSyntax/.
 
 Usage:
 ```JS
