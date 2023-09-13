@@ -271,15 +271,14 @@
 		code					= _trueTabs(_correctRN(code));	// Подготовка текста
 		render					= _tryInit(render, code);
 		const all				= [];							// Тут собираем все каменты, строки, RegExp
+		const _return			= function(m, i) { return all[i]; };
 		// Маскируем HTML
 		code					= _makeSafe(code)
-			// Убираем многострочные каменты
-			.replace(/\/\*([\s\S]*?)\*\//g,				function(m) { return '\0B'+_push(all, _multilineComment(m, render.rem))+'\0'; })
-			// Убираем однострочные каменты
-			.replace(/([^\\]|^)(\/\/[^\n]*)(\n|$)/g,	function(m, f, t, e) { return f+'\0B'+_push(all, render.rem(t))+'\0'+e; })
 			// Убираем regexp и строки
-			.replace(/(\/(\\\/|[^\/\n])*\/[gim]{0,3})|(([^\\])((?:'(?:\\'|[^'])*')|(?:"(?:\\"|[^"])*")))/g, function(m, r, d1, d2, f, s)
+			.replace(/(\/\/[^\n]*)|(\/\*([\s\S]*?)\*\/)|(\/(\\\/|[^\/\n])+\/[gim]{0,3})|(([^\\])((?:'(?:\\'|[^'])*')|(?:"(?:\\"|[^"])*")))/g, function(m, c, mlc, c1, r, d1, d2, f, s)
 				{
+					if (c) return m;
+					if (mlc) return mlc;
 					if (r!=null && r!='')
 					{
 						s		= render.re(r);
@@ -291,6 +290,10 @@
 					}
 					return m+_push(all, s)+'\0';
 				})
+			// Убираем многострочные каменты
+			.replace(/\/\*([\s\S]*?)\*\//g,				function(m) { return '\0B'+_push(all, _multilineComment(m, render.rem))+'\0'; })
+			// Убираем однострочные каменты
+			.replace(/([^\\]|^)(\/\/[^\n]*)(\n|$)/g,	function(m, f, t, e) { return f+'\0B'+_push(all, render.rem(t))+'\0'+e; })
 			// Выделяем ключевые слова
 			.replace(keywords,									render.kw('$1'))
 			// Выделяем имена функций
@@ -300,7 +303,7 @@
 			// Выделяем числа
 			.replace(/\b((?:\d[_\d]*(?:\.\d+)?)|(?:0x[\da-f]+))\b/gi, render.num('$1'))
 			// Возвращаем на место каменты, строки, RegExp
-			.replace(/\0B(\d+)\0/g, 							function(m, i) { return all[i]; });
+			.replace(/\0B(\d+)\0/g, 							_return);
 		// Обрабатываем строки
 		code					= render.lines(code.split('\n'));
 		// Финальный аккорд
